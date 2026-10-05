@@ -36,21 +36,20 @@ input {
   border-radius: 6px;
   font-size: 16px;
   width: 100%;
-
 }
 
-   form button {
-    background-color: #1b6ca8;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-   }
-   form button:hover {
-    background-color: #155a8a;
-   }
+form button {
+  background-color: #1b6ca8;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+form button:hover {
+  background-color: #155a8a;
+}
 
 ul {
   list-style: none;
@@ -79,6 +78,23 @@ li button {
   border-radius: 6px;
   background-color: white;
   cursor: pointer;
+}
+li.due {
+  background-color: #fff4e0;
+  border-color: #f0a030;
+}
+
+li.overdue {
+  background-color: #fdeaea;
+  border-color: #d9534f;
+}
+
+li.taken {
+  background-color: #eaf6ee;
+  border-color: #5cb85c;
+}
+li.taken span {
+  text-decoration: line-through;
 }
 .field {
   display: flex;

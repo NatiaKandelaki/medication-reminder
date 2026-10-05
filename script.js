@@ -2,7 +2,6 @@ const form = document.getElementById("med-form");
 const list = document.getElementById("med-list");
 
 let medications = [];
-let alreadyReminded = [];
 
 function save() {
   localStorage.setItem("medications", JSON.stringify(medications));
@@ -21,20 +20,22 @@ function getCurrentTime() {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
-
-function checkReminders() {
+function getStatus(med) {
   const currentTime = getCurrentTime();
 
-  medications.forEach(function (med) {
-    if (
-      med.time === currentTime &&
-      !med.taken &&
-      !alreadyReminded.includes(med.id)
-    ) {
-      alreadyReminded.push(med.id);
-      alert(`Time to take ${med.name} (${med.dose})`);
-    }
-  });
+  if (med.taken) {
+    return "taken";
+  }
+  if (med.time < currentTime) {
+    return "overdue";
+  }
+  if (med.time === currentTime) {
+    return "due";
+  }
+  return "upcoming";
+}
+function tick() {
+  render();
 }
 
 form.addEventListener("submit", function (event) {
@@ -67,12 +68,10 @@ function render() {
 
   sorted.forEach(function (med) {
     const li = document.createElement("li");
-    li.textContent = `${med.name} - ${med.dose} at ${med.time}`;
-
-    if (med.taken) {
-      li.style.textDecoration = "line-through";
-    }
-
+    li.classList.add(getStatus(med));
+    const text = document.createElement("span");
+    text.textContent = `${med.name} - ${med.dose} at ${med.time}`;
+    li.appendChild(text);
     const takenBtn = document.createElement("button");
     takenBtn.textContent = med.taken ? "Undo" : "Taken";
     takenBtn.addEventListener("click", function () {
@@ -100,5 +99,5 @@ function render() {
 load();
 render();
 
-setInterval(checkReminders, 10000);
-checkReminders();
+setInterval(tick, 10000);
+tick();
