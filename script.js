@@ -61,6 +61,13 @@ function getStatus(med) {
   }
   return "upcoming";
 }
+const statusLabels = {
+  notToday: "Not today",
+  taken: "Taken",
+  overdue: "Overdue",
+  due: "Due now",
+  upcoming: "Upcoming",
+};
 notifyBtn.addEventListener("click", function () {
   Notification.requestPermission().then(updateNotifyButton);
 });
@@ -118,22 +125,77 @@ form.addEventListener("submit", function (event) {
   render();
   form.reset();
 });
+function updateStats() {
+  const scheduled = medications.filter(isScheduledToday);
+  const taken = scheduled.filter(isTakenToday);
+  const pending = scheduled.filter(function (med) {
+    return !isTakenToday(med);
+  });
+  const now = getCurrentTime();
+  const later = pending
+    .filter(function (med) {
+      return med.time >= now;
+    })
+    .sort(function (a, b) {
+      return a.time.localeCompare(b.time);
+    });
+  document.getElementById("stat-total").textContent = medications.length;
+  document.getElementById("stat-taken").textContent = taken.length;
+  document.getElementById("stat-pending").textContent = pending.length;
+  document.getElementById("stat-next").textContent =
+    later.length > 0 ? later[0].time : "--:--";
+}
 
 function render() {
   list.innerHTML = "";
+  updateStats();
+
+  if (medications.length === 0) {
+    const empty = document.createElement("li");
+    empty.classList.add("empty");
+    empty.textContent = "No medications yet. Add your first one above.";
+    list.appendChild(empty);
+    return;
+  }
 
   const sorted = [...medications].sort(function (a, b) {
     return a.time.localeCompare(b.time);
   });
 
   sorted.forEach(function (med) {
+    const status = getStatus(med);
     const li = document.createElement("li");
-    li.classList.add(getStatus(med));
+    li.classList.add(status);
 
-    const repeat = med.everyDays > 1 ? ` (every ${med.everyDays} days)` : "";
-    const text = document.createElement("span");
-    text.textContent = `${med.name} - ${med.dose} at ${med.time}${repeat}`;
-    li.appendChild(text);
+    // icon
+    const icon = document.createElement("div");
+    icon.classList.add("icon");
+    icon.textContent = "💊";
+
+    // name + details
+    const info = document.createElement("div");
+    info.classList.add("info");
+
+    const title = document.createElement("div");
+    title.classList.add("title");
+    title.textContent = med.name;
+
+    const repeat = med.everyDays > 1 ? ` · every ${med.everyDays} days` : "";
+    const sub = document.createElement("div");
+    sub.classList.add("sub");
+    sub.textContent = `${med.dose} · ${med.time}${repeat}`;
+
+    info.appendChild(title);
+    info.appendChild(sub);
+
+    // status badge
+    const badge = document.createElement("span");
+    badge.classList.add("badge");
+    badge.textContent = statusLabels[status];
+
+    // buttons
+    const actions = document.createElement("div");
+    actions.classList.add("actions");
 
     const takenBtn = document.createElement("button");
     takenBtn.textContent = isTakenToday(med) ? "Undo" : "Taken";
@@ -153,11 +215,17 @@ function render() {
       render();
     });
 
-    li.appendChild(takenBtn);
-    li.appendChild(deleteBtn);
+    actions.appendChild(takenBtn);
+    actions.appendChild(deleteBtn);
+
+    li.appendChild(icon);
+    li.appendChild(info);
+    li.appendChild(badge);
+    li.appendChild(actions);
     list.appendChild(li);
   });
 }
+
 updateNotifyButton();
 load();
 render();
