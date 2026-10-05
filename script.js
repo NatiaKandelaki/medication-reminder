@@ -20,10 +20,23 @@ function getCurrentTime() {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
+
+function getToday() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function isTakenToday(med) {
+  return med.takenDate === getToday();
+}
+
 function getStatus(med) {
   const currentTime = getCurrentTime();
 
-  if (med.taken) {
+  if (isTakenToday(med)) {
     return "taken";
   }
   if (med.time < currentTime) {
@@ -50,7 +63,7 @@ form.addEventListener("submit", function (event) {
     name: name,
     dose: dose,
     time: time,
-    taken: false,
+    takenDate: null,
   };
 
   medications.push(medication);
@@ -73,9 +86,9 @@ function render() {
     text.textContent = `${med.name} - ${med.dose} at ${med.time}`;
     li.appendChild(text);
     const takenBtn = document.createElement("button");
-    takenBtn.textContent = med.taken ? "Undo" : "Taken";
+    takenBtn.textContent = isTakenToday(med) ? "Undo" : "Taken";
     takenBtn.addEventListener("click", function () {
-      med.taken = !med.taken;
+      med.takenDate = isTakenToday(med) ? null : getToday();
       save();
       render();
     });
