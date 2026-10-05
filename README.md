@@ -2,15 +2,24 @@
 
 A web app that helps users keep track of their daily medications and reminds them when it's time to take a dose.
 
-Built with HTML, CSS and vanilla JavaScript.
+![Screenshot](screenshot.png)
 
 ## Features
 
-- Add medications with name, dose and time
-- Daily list sorted by time
+- Add medications with name, dose, time and repeat interval (every N days)
+- Daily list sorted by time, with status: upcoming, due, overdue, taken
+- Stat cards: total, taken today, pending, next reminder
 - Mark doses as taken (with undo) and delete medications
+- Browser notification when a dose is due (requires permission)
 - Data saved in the browser with localStorage
-- Reminder alert when a dose is due
+
+## Built with
+
+HTML, CSS and vanilla JavaScript (no frameworks)
+
+## How to run
+
+Open `index.html` in a browser.
 
 ## What I learned
 
@@ -18,6 +27,7 @@ Built with HTML, CSS and vanilla JavaScript.
 - Working with arrays and objects
 - Saving and loading data with JSON and localStorage
 - Time-based logic with setInterval
+- Browser Notifications API
 
 ## Background
 
