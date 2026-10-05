@@ -15,6 +15,7 @@ form.addEventListener("submit", function (event) {
     name: name,
     dose: dose,
     time: time,
+    taken: false,
   };
 
   medications.push(medication);
@@ -29,9 +30,32 @@ function render() {
     return a.time.localeCompare(b.time);
   });
 
-  sorted.forEach(function (med) {
-    const li = document.createElement("li");
-    li.textContent = `${med.name} - ${med.dose} at ${med.time}`;
-    list.appendChild(li);
+sorted.forEach(function (med) {
+  const li = document.createElement("li");
+  li.textContent = `${med.name} - ${med.dose} at ${med.time}`;
+
+  if (med.taken) {
+    li.style.textDecoration = "line-through";
+  }
+
+  const takenBtn = document.createElement("button");
+  takenBtn.textContent = med.taken ? "Undo" : "Taken";
+  takenBtn.addEventListener("click", function () {
+    med.taken = !med.taken;
+    render();
   });
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Delete";
+  deleteBtn.addEventListener("click", function () {
+    medications = medications.filter(function (m) {
+    return m.id !== med.id;
+});
+    render();
+  });
+
+  li.appendChild(takenBtn);
+  li.appendChild(deleteBtn);
+  list.appendChild(li);
+});
 }
