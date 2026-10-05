@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medication Reminder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Medication Reminder</h1>
+
+  <form id="med-form">
+    <label for="name">Medication name</label>
+    <input type="text" id="name" required>
+
+    <label for="dose">Dose</label>
+    <input type="text" id="dose" required>
+
+    <label for="time">Time</label>
+    <input type="time" id="time" required>
+
+    <button type="submit">Add</button>
+  </form>
+
+  <h2>Today's medications</h2>
+  <ul id="med-list"></ul>
+
+  <script src="script.js"></script>
+</body>
+</html>
