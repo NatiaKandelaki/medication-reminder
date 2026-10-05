@@ -29,13 +29,26 @@ function getToday() {
   const day = String(now.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
+function daysBetween(from, to) {
+  return Math.round((new Date(to) - new Date(from)) / 86400000);
+}
 
+function isScheduledToday(med) {
+  if (!med.everyDays) {
+    return true;
+  }
+  let days = daysBetween(med.startDate, getToday());
+  return days >= 0 && days % med.everyDays === 0;
+}
 function isTakenToday(med) {
   return med.takenDate === getToday();
 }
 
 function getStatus(med) {
   const currentTime = getCurrentTime();
+  if (!isScheduledToday(med)) {
+    return "notToday";
+  }
 
   if (isTakenToday(med)) {
     return "taken";
@@ -88,11 +101,15 @@ form.addEventListener("submit", function (event) {
   const dose = document.getElementById("dose").value;
   const time = document.getElementById("time").value;
 
+  const everyDays = Number(document.getElementById("interval").value);
+
   const medication = {
     id: Date.now(),
     name: name,
     dose: dose,
     time: time,
+    everyDays: everyDays,
+    startDate: getToday(),
     takenDate: null,
   };
 
@@ -112,9 +129,12 @@ function render() {
   sorted.forEach(function (med) {
     const li = document.createElement("li");
     li.classList.add(getStatus(med));
+
+    const repeat = med.everyDays > 1 ? ` (every ${med.everyDays} days)` : "";
     const text = document.createElement("span");
-    text.textContent = `${med.name} - ${med.dose} at ${med.time}`;
+    text.textContent = `${med.name} - ${med.dose} at ${med.time}${repeat}`;
     li.appendChild(text);
+
     const takenBtn = document.createElement("button");
     takenBtn.textContent = isTakenToday(med) ? "Undo" : "Taken";
     takenBtn.addEventListener("click", function () {
