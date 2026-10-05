@@ -2,110 +2,275 @@
   box-sizing: border-box;
 }
 
+:root {
+  --blue: #2563eb;
+  --green: #16a34a;
+  --orange: #ea580c;
+  --purple: #9333ea;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f6fa;
-  color: #1f2d3d;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(180deg, #eff6ff, #f0fdf4);
+  color: var(--text);
   margin: 0;
-  padding: 16px;
+  min-height: 100vh;
+}
+
+/* Top bar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 14px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.topbar button {
+  background: white;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .container {
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
-  background-color: white;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 24px 16px 48px;
 }
 
-h1 {
-  margin-top: 0;
-  color: #1b6ca8;
+/* Hero */
+.hero {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  margin: 0 0 8px;
+}
+
+.hero p {
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Stat cards */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.green { color: var(--green); }
+.orange { color: var(--orange); }
+.purple { color: var(--purple); }
+
+/* Generic card + form */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+}
+
+.card h2,
+.section-title {
+  margin: 0 0 12px;
+  font-size: 22px;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
-input {
-  padding: 10px;
-  border: 1px solid #c5d0db;
-  border-radius: 6px;
-  font-size: 16px;
-  width: 100%;
-}
-
-form button {
-  background-color: #1b6ca8;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-}
-form button:hover {
-  background-color: #155a8a;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 12px;
-  margin-bottom: 8px;
-  background-color: #f7fafc;
-  border: 1px solid #e1e8ef;
-  border-radius: 8px;
-}
-
-li button:first-of-type {
-  margin-left: auto;
-}
-
-li button {
-  padding: 6px 12px;
-  border: 1px solid #c5d0db;
-  border-radius: 6px;
-  background-color: white;
-  cursor: pointer;
-}
-li.due {
-  background-color: #fff4e0;
-  border-color: #f0a030;
-}
-
-li.overdue {
-  background-color: #fdeaea;
-  border-color: #d9534f;
-}
-
-li.taken {
-  background-color: #eaf6ee;
-  border-color: #5cb85c;
-}
-li.taken span {
-  text-decoration: line-through;
-}
-li.notToday {
-  opacity: 0.55;
-}
 .field {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-@media (min-width: 600px) {
+label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+}
+
+input:focus {
+  outline: 2px solid var(--blue);
+  border-color: transparent;
+}
+
+button.primary {
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.primary:hover {
+  opacity: 0.9;
+}
+
+/* Medication cards */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: white;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+li.empty {
+  justify-content: center;
+  color: var(--muted);
+}
+
+.icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #dbeafe;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.info .title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.info .sub {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions button {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background: #f3f4f6;
+}
+
+/* Status colors */
+li.due {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+li.due .badge { background: #fde68a; color: #92400e; }
+
+li.overdue {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+li.overdue .badge { background: #fecaca; color: #991b1b; }
+
+li.taken {
+  border-color: #22c55e;
+  background: #f0fdf4;
+}
+li.taken .badge { background: #bbf7d0; color: #166534; }
+li.taken .title { text-decoration: line-through; }
+
+li.upcoming .badge { background: #dbeafe; color: #1e40af; }
+
+li.notToday { opacity: 0.55; }
+
+/* Wider screens */
+@media (min-width: 700px) {
+  .stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   form {
     flex-direction: row;
     align-items: flex-end;
@@ -114,5 +279,15 @@ li.notToday {
   .field {
     flex: 1;
     min-width: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  li {
+    flex-wrap: wrap;
+  }
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
   }
 }
