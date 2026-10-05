@@ -1,5 +1,6 @@
 const form = document.getElementById("med-form");
 const list = document.getElementById("med-list");
+const notifyBtn = document.getElementById("notify-btn");
 
 let medications = [];
 
@@ -47,7 +48,36 @@ function getStatus(med) {
   }
   return "upcoming";
 }
+notifyBtn.addEventListener("click", function () {
+  Notification.requestPermission().then(updateNotifyButton);
+});
+function updateNotifyButton() {
+  if (!("Notification" in window) || Notification.permission !== "default") {
+    notifyBtn.hidden = true;
+  }
+}
+
+function notifyIfDue(med) {
+  if (!("Notification" in window) || Notification.permission !== "granted") {
+    return;
+  }
+  if (getStatus(med) !== "due") {
+    return;
+  }
+  if (med.notifiedDate === getToday()) {
+    return;
+  }
+
+  new Notification("Time for your medication", {
+    body: `${med.name} (${med.dose}) at ${med.time}`,
+  });
+
+  med.notifiedDate = getToday();
+  save();
+}
+
 function tick() {
+  medications.forEach(notifyIfDue);
   render();
 }
 
@@ -108,7 +138,7 @@ function render() {
     list.appendChild(li);
   });
 }
-
+updateNotifyButton();
 load();
 render();
 

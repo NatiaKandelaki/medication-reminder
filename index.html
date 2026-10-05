@@ -1,39 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medication Reminder</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medication Reminder</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="container">
+      <h1>Medication Reminder</h1>
+      <button type="button" id="notify-btn">Enable notifications</button>
+      
+      <form id="med-form">
+        <div class="field">
+          <label for="name">Medication name</label>
+          <input type="text" id="name" required />
+        </div>
 
-  <h1>Medication Reminder</h1>
+        <div class="field">
+          <label for="dose">Dose</label>
+          <input type="text" id="dose" required />
+        </div>
 
-<form id="med-form">
-  <div class="field">
-    <label for="name">Medication name</label>
-    <input type="text" id="name" required>
-  </div>
+        <div class="field">
+          <label for="time">Time</label>
+          <input type="time" id="time" required />
+        </div>
 
-  <div class="field">
-    <label for="dose">Dose</label>
-    <input type="text" id="dose" required>
-  </div>
+        <button type="submit">Add</button>
+      </form>
 
-  <div class="field">
-    <label for="time">Time</label>
-    <input type="time" id="time" required>
-  </div>
-
-  <button type="submit">Add</button>
-</form>
-
-  <h2>Today's medications</h2>
-  <ul id="med-list"></ul>
+      <h2>Today's medications</h2>
+      <ul id="med-list"></ul>
     </div>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
