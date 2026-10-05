@@ -2,6 +2,7 @@ const form = document.getElementById("med-form");
 const list = document.getElementById("med-list");
 
 let medications = [];
+let alreadyReminded = [];
 
 function save() {
   localStorage.setItem("medications", JSON.stringify(medications));
@@ -12,6 +13,28 @@ function load() {
   if (data) {
     medications = JSON.parse(data);
   }
+}
+
+function getCurrentTime() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+}
+
+function checkReminders() {
+  const currentTime = getCurrentTime();
+
+  medications.forEach(function (med) {
+    if (
+      med.time === currentTime &&
+      !med.taken &&
+      !alreadyReminded.includes(med.id)
+    ) {
+      alreadyReminded.push(med.id);
+      alert(`Time to take ${med.name} (${med.dose})`);
+    }
+  });
 }
 
 form.addEventListener("submit", function (event) {
@@ -76,3 +99,6 @@ function render() {
 
 load();
 render();
+
+setInterval(checkReminders, 10000);
+checkReminders();
