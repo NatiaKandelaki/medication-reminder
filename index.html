@@ -7,23 +7,32 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+
   <h1>Medication Reminder</h1>
 
-  <form id="med-form">
+<form id="med-form">
+  <div class="field">
     <label for="name">Medication name</label>
     <input type="text" id="name" required>
+  </div>
 
+  <div class="field">
     <label for="dose">Dose</label>
     <input type="text" id="dose" required>
+  </div>
 
+  <div class="field">
     <label for="time">Time</label>
     <input type="time" id="time" required>
+  </div>
 
-    <button type="submit">Add</button>
-  </form>
+  <button type="submit">Add</button>
+</form>
 
   <h2>Today's medications</h2>
   <ul id="med-list"></ul>
+    </div>
 
   <script src="script.js"></script>
 </body>
