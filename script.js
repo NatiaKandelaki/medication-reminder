@@ -167,12 +167,9 @@ function render() {
     const li = document.createElement("li");
     li.classList.add(status);
 
-    // icon
     const icon = document.createElement("div");
     icon.classList.add("icon");
-    icon.textContent = "💊";
-
-    // name + details
+    icon.textContent = med.name[0].toUpperCase();
     const info = document.createElement("div");
     info.classList.add("info");
 
@@ -188,12 +185,11 @@ function render() {
     info.appendChild(title);
     info.appendChild(sub);
 
-    // status badge
+    // status 
     const badge = document.createElement("span");
     badge.classList.add("badge");
     badge.textContent = statusLabels[status];
 
-    // buttons
     const actions = document.createElement("div");
     actions.classList.add("actions");
 
