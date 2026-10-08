@@ -11,7 +11,11 @@ function save() {
 function load() {
   const data = localStorage.getItem("medications");
   if (data) {
-    medications = JSON.parse(data);
+    try {
+      medications = JSON.parse(data);
+    } catch (error) {
+      medications = [];
+    }
   }
 }
 
@@ -104,8 +108,12 @@ function tick() {
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const name = document.getElementById("name").value;
-  const dose = document.getElementById("dose").value;
+  const name = document.getElementById("name").value.trim();
+  const dose = document.getElementById("dose").value.trim();
+
+  if (!name || !dose) {
+    return;
+  }
   const time = document.getElementById("time").value;
 
   const everyDays = Number(document.getElementById("interval").value);
@@ -185,7 +193,7 @@ function render() {
     info.appendChild(title);
     info.appendChild(sub);
 
-    // status 
+    // status
     const badge = document.createElement("span");
     badge.classList.add("badge");
     badge.textContent = statusLabels[status];
